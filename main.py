@@ -38,5 +38,4 @@ async def upload_pdf(file: UploadFile = File(...)):
 
     pdf_url = upload_to_gcs(file.file, file.filename)
     return {"pdfUrl": pdf_url}
-if __name__ == "__main__":
-     uvicorn.run("main:app", host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+
