@@ -4,6 +4,8 @@ from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 from fastapi.responses import JSONResponse
+import base64
+
 
 app = FastAPI()
 
@@ -78,3 +80,4 @@ async def upload_pdf(file: UploadFile = File(...)):
 if __name__ == "__main__":
     print("Starting FastAPI app...")
     uvicorn.run("main:app", host="0.0.0.0", port=int(os.environ.get("PORT", 8000)))
+    
