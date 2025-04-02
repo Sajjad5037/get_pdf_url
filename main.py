@@ -1,14 +1,25 @@
-from fastapi import FastAPI, File, UploadFile
-from google.cloud import storage
 import os
+import base64
+from google.cloud import storage
+from fastapi import FastAPI, File, UploadFile
 
 app = FastAPI()
 
 # Configure your Google Cloud Storage Bucket
 BUCKET_NAME = "your-bucket-name"
 
-# Set Google Cloud credentials environment variable
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "path_to_your_service_account_file.json"
+# Decode the base64-encoded credentials from the environment variable and save it as a file
+encoded_credentials = os.getenv("GOOGLE_APPLICATION_CREDENTIALS_BASE64")
+if encoded_credentials:
+    # Decode the credentials
+    decoded_credentials = base64.b64decode(encoded_credentials)
+
+    # Write the decoded content to a temporary file
+    with open("google-credentials.json", "wb") as cred_file:
+        cred_file.write(decoded_credentials)
+
+    # Set the environment variable for Google Cloud credentials
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "google-credentials.json"
 
 def upload_to_gcs(file, filename):
     """Uploads a file to Google Cloud Storage."""
