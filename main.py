@@ -7,6 +7,9 @@ app = FastAPI()
 # Configure your Google Cloud Storage Bucket
 BUCKET_NAME = "your-bucket-name"
 
+# Set Google Cloud credentials environment variable
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "path_to_your_service_account_file.json"
+
 def upload_to_gcs(file, filename):
     """Uploads a file to Google Cloud Storage."""
     client = storage.Client()
