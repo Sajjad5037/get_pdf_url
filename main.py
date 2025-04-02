@@ -6,7 +6,7 @@ from fastapi import FastAPI, File, UploadFile
 app = FastAPI()
 
 # Configure your Google Cloud Storage Bucket
-BUCKET_NAME = "your-bucket-name"
+BUCKET_NAME = "pdf_url"
 
 # Decode the base64-encoded credentials from the environment variable and save it as a file
 encoded_credentials = os.getenv("GOOGLE_APPLICATION_CREDENTIALS_BASE64")
