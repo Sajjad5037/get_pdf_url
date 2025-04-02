@@ -1,10 +1,8 @@
 import os
-import base64
 from google.cloud import storage
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
-import io
 
 app = FastAPI()
 
@@ -47,11 +45,8 @@ def upload_to_gcs(file, filename):
         bucket = client.bucket(BUCKET_NAME)
         blob = bucket.blob(filename)
         
-        # Use in-memory byte stream to handle file upload
-        file_content = io.BytesIO(file.read())
-        
-        # Upload the file content to GCS
-        blob.upload_from_file(file_content, content_type="application/pdf")
+        # Upload the file directly from the UploadFile object to GCS
+        blob.upload_from_file(file, content_type="application/pdf")
         blob.make_public()  # Make the file publicly accessible
         print(f"File {filename} uploaded successfully and made public.")
         
