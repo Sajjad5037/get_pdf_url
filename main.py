@@ -3,6 +3,7 @@ from google.cloud import storage
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
+from fastapi.responses import JSONResponse
 
 app = FastAPI()
 
@@ -63,19 +64,16 @@ async def upload_pdf(file: UploadFile = File(...)):
 
     if not file.filename.endswith(".pdf"):
         print(f"Rejected file {file.filename}: Only PDF files are allowed.")
-        raise HTTPException(status_code=400, detail="Only PDF files are allowed")
-
-    # Print some details about the file
-    print(f"File details - Filename: {file.filename}, Content Type: {file.content_type}")
+        return JSONResponse(content={"error": "Only PDF files are allowed"}, status_code=400)
 
     try:
-        # Upload the PDF to Google Cloud Storage and get the URL
         pdf_url = upload_to_gcs(file.file, file.filename)
         print(f"Successfully uploaded PDF. Returning URL: {pdf_url}")
-        return {"pdfUrl": pdf_url}
+        response = {"pdfUrl": pdf_url}
+        return JSONResponse(content=response)
     except Exception as e:
         print(f"Error during file upload: {e}")
-        raise HTTPException(status_code=500, detail="File upload failed")
+        return JSONResponse(content={"error": "File upload failed"}, status_code=500)
 
 if __name__ == "__main__":
     print("Starting FastAPI app...")
