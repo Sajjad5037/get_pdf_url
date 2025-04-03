@@ -18,7 +18,7 @@ app.add_middleware(
 )
 
 # Configure your Google Cloud Storage Bucket
-BUCKET_NAME = "pdf_url"
+BUCKET_NAME = "pdf_url2"
 
 # Decode the base64-encoded credentials from the environment variable and save it as a file
 encoded_credentials = os.getenv("GOOGLE_APPLICATION_CREDENTIALS_BASE64")
