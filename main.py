@@ -11,7 +11,10 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://sajjadalinoor.vercel.app"],  # Explicitly allow only your frontend
+    allow_origins=[
+        "https://sajjadalinoor.vercel.app",
+        "https://class-management-system-new.web.app/"
+    ],  # Explicitly allow only your frontend
     allow_credentials=True,  # Allow cookies/auth headers if needed
     allow_methods=["GET", "POST", "OPTIONS"],  # Limit allowed methods
     allow_headers=["Content-Type", "Authorization"],  # Specify necessary headers
